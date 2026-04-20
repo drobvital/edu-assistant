@@ -1,17 +1,17 @@
-from edu_assistant.assistant import create_response
+from edu_assistant.api import app
+from fastapi.testclient import TestClient
 
+client = TestClient(app)
 
-# Prepare prompt for LLM
-INPUT_PROMPT = "Чему равен квадрат гипотенузы в теореме пифагора"
-
-# Call assistant
-response = create_response(
-    llm_key = "ollama",
-    role = "math_tutor",
-    template = "tutor_quick_answer",
-    prompt = INPUT_PROMPT,
+response = client.post(
+    "/ask",
+    data={
+        "role":"math_tutor",
+        "template":"tutor_quick_answer",
+        "question": "Что такое число Пи",
+    },
 )
 
-print(response) 
+print(response.text) 
 
 

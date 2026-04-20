@@ -17,21 +17,21 @@ def create_response(
     config = Config.from_yaml_file("config.yml")
 
     #Взять llm конфиг по ключу из config.llms
-    llm_config = config.llms['ollama']
+    llm_config = config.llms[llm_key]
 
     #создать llm_client, предоставив llm_config
-    llm_client = get_llm_client(llm_config)
+    llm_client = get_llm_client(llm_config=llm_config)
 
     #используя config, отрендерить инструкцию для роли и шаблон системного промпта
-    system_prompt = config.render_system_instructions(role, template)
+    instructions = config.render_system_instructions(role=role, template=template)
 
     #вывести на экран инструкцию,используя logger.debug
-    logger.debug(system_prompt)
+    logger.debug(f"LLM instructions: {instructions}")
 
     #вызвать llm_client Responses API с аргументами input, instructions
     response = llm_client.responses.create(
         model = llm_config.model,
-        instructions = system_prompt,
+        instructions = instructions,
         input = prompt,
         max_output_tokens = llm_config.max_output_tokens
     )
