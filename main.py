@@ -8,7 +8,7 @@ response = client.post(
     data={
         "role":"math_tutor",
         "template":"tutor_quick_answer",
-        "question": "Что такое число Пи",
+        "question": "Упрости выражение: x^2-x(x+1)+2(0.5x-1)+2",
     },
 )
 

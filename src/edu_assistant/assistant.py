@@ -3,6 +3,7 @@ from loguru import logger
 
 from edu_assistant.config import Config, RoleType, TemplateType
 from edu_assistant.llm_client import get_llm_client
+from edu_assistant.tools.formula import extract_and_solve_trailing_formula
 
 # Load environment variables from .env file
 load_dotenv()
@@ -24,6 +25,14 @@ def create_response(
 
     #используя config, отрендерить инструкцию для роли и шаблон системного промпта
     instructions = config.render_system_instructions(role=role, template=template)
+    #обработка в случае наличия математического выражения в промте
+    if role == "math_tutor":
+        solution = extract_and_solve_trailing_formula(prompt)
+        logger.debug(f"Extracted solution: {solution}")
+        logger.debug(f"Instructions before: {instructions}")
+        if solution:
+            instructions += f"\n\nВажно!Не пытайся считать формулу,используй уже посчитанный результат:{solution}"
+        logger.debug(f"Instructions after: {instructions}")    
 
     #вывести на экран инструкцию,используя logger.debug
     logger.debug(f"LLM instructions: {instructions}")

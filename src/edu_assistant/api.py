@@ -1,10 +1,15 @@
 from openai import OpenAIError
 from fastapi import FastAPI, Form, HTTPException
+from fastapi.responses import FileResponse
 
 from edu_assistant.assistant import create_response
 from edu_assistant.config import RoleType, TemplateType
 
 app = FastAPI()
+
+@app.get('/demo')
+def demo():
+    return FileResponse('templates/demo.html')
 
 @app.post('/ask')
 def ask(
@@ -15,7 +20,7 @@ def ask(
     """Ask question to educational assistant."""
     try:
         return create_response(
-            llm_key ="ollama",
+            llm_key ="api",
             role=role,
             template=template,
             prompt=question,
