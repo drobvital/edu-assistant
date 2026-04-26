@@ -23,17 +23,15 @@ def create_response(
     #создать llm_client, предоставив llm_config
     llm_client = get_llm_client(llm_config=llm_config)
 
-    #используя config, отрендерить инструкцию для роли и шаблон системного промпта
-    instructions = config.render_system_instructions(role=role, template=template)
+    
     #обработка в случае наличия математического выражения в промте
     if role == "math_tutor":
         solution = extract_and_solve_trailing_formula(prompt)
-        logger.debug(f"Extracted solution: {solution}")
-        logger.debug(f"Instructions before: {instructions}")
-        if solution:
-            instructions += f"\n\nВажно!Не пытайся считать формулу,используй уже посчитанный результат:{solution}"
-        logger.debug(f"Instructions after: {instructions}")    
-
+    else:
+        solution = None
+    logger.debug(f"Extracted solution: {solution}")    
+    instructions = config.render_system_instructions(role=role, template=template,solution=solution)        
+       
     #вывести на экран инструкцию,используя logger.debug
     logger.debug(f"LLM instructions: {instructions}")
 

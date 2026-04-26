@@ -87,6 +87,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi", extra = ["standard"] },
+    { name = "jinja2" },
     { name = "loguru" },
     { name = "openai" },
     { name = "pydantic" },
@@ -100,6 +101,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi", extras = ["standard", "standart"], specifier = "==0.135.3" },
+    { name = "jinja2", specifier = "==3.1.6" },
     { name = "loguru", specifier = "==0.7.3" },
     { name = "openai", specifier = "==2.30.0" },
     { name = "pydantic", specifier = "==2.12.5" },
